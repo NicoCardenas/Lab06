@@ -1,0 +1,5 @@
+mkdir bin
+javac -d bin -sourcepath src src\presentacion\BodyTicGUI.java
+java -cp bin presentacion.BodyTicGUI
+
+jar cvf BodyTic.jar bin
