@@ -22,6 +22,11 @@ public class BodyTicGUI extends JFrame{
     private JButton botonParada;    
     private JButton botonDecision;     
     private FotoSalon foto;
+    private JMenuBar menuBar;
+    private JMenu abrir;
+    private JMenu guardar;
+    private JMenu importar;
+    private JMenu exportar;
     
     
     public BodyTicGUI() {
@@ -39,6 +44,17 @@ public class BodyTicGUI extends JFrame{
         
         setLayout(new BorderLayout());    
         contenedor = new JScrollPane();
+        menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        
+        abrir = new JMenu("Abrir");
+        guardar = new JMenu("Guardar");
+        importar = new JMenu("Importar");
+        exportar = new JMenu("Exportar");
+        menuBar.add(abrir);
+        menuBar.add(guardar);
+        menuBar.add(importar);
+        menuBar.add(exportar);
         
         foto= new FotoSalon();
         contenedor.getViewport().add(foto);
@@ -54,8 +70,9 @@ public class BodyTicGUI extends JFrame{
         botones.add(botonInicio);
         botones.add(botonParada);
         botones.add(botonDecision);        
-        botones.add(botonSalida);        
+        botones.add(botonSalida);  
         
+        //add(menuBar, BorderLayout.NORTH);
         add(contenedor,BorderLayout.CENTER);
         add(botones,BorderLayout.SOUTH);
         
