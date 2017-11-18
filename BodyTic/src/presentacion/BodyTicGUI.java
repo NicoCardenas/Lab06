@@ -23,11 +23,13 @@ public class BodyTicGUI extends JFrame{
     private JButton botonDecision;     
     private FotoSalon foto;
     private JMenuBar menuBar;
-    private JMenu abrir;
-    private JMenu guardar;
-    private JMenu importar;
-    private JMenu exportar;
-    
+    private JMenu menu;
+    private JMenuItem inicio;
+    private JMenuItem abrir;
+    private JMenuItem guardar;
+    private JMenuItem importar;
+    private JMenuItem exportar;
+    private JMenuItem salir;
     
     public BodyTicGUI() {
         super("Body Tic");
@@ -35,6 +37,8 @@ public class BodyTicGUI extends JFrame{
             salon=Salon.demeSalon();     
             elementos();
             acciones();
+            prepareElementosMenu();
+            prepareAccionesMenu();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -44,17 +48,6 @@ public class BodyTicGUI extends JFrame{
         
         setLayout(new BorderLayout());    
         contenedor = new JScrollPane();
-        menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-        
-        abrir = new JMenu("Abrir");
-        guardar = new JMenu("Guardar");
-        importar = new JMenu("Importar");
-        exportar = new JMenu("Exportar");
-        menuBar.add(abrir);
-        menuBar.add(guardar);
-        menuBar.add(importar);
-        menuBar.add(exportar);
         
         foto= new FotoSalon();
         contenedor.getViewport().add(foto);
@@ -72,7 +65,6 @@ public class BodyTicGUI extends JFrame{
         botones.add(botonDecision);        
         botones.add(botonSalida);  
         
-        //add(menuBar, BorderLayout.NORTH);
         add(contenedor,BorderLayout.CENTER);
         add(botones,BorderLayout.SOUTH);
         
@@ -82,6 +74,87 @@ public class BodyTicGUI extends JFrame{
         setResizable(false);
     }
     
+    private void prepareElementosMenu() {
+    	menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        
+        menu = new JMenu("Menu");
+        inicio = new JMenuItem("Inicio");
+        abrir = new JMenuItem("Abrir");
+        guardar = new JMenuItem("Guardar");
+        importar = new JMenuItem("Importar");
+        exportar = new JMenuItem("Exportar");
+        salir = new JMenuItem("Salir");
+        
+        menu.add(inicio);
+        menu.add(abrir);
+        menu.add(guardar);
+        menu.add(importar);
+        menu.add(exportar);
+        menu.add(salir);
+        
+        menuBar.add(menu);
+    }
+    
+    private void prepareAccionesMenu() {
+    	inicio.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+inicio.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				opcionIniciar();
+			}
+		});
+    	
+    	abrir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+abrir.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+    	
+    	guardar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+guardar.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+    	
+    	importar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+importar.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+    	
+    	exportar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+exportar.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+    	
+    	salir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+salir.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				opcionSalir();
+			}
+		});
+    }
+    
+    private void opcionSalir() {
+    	System.exit(0);
+    }
+    
+    private void opcionIniciar() {
+    	
+    }
     
     private void acciones(){
         
