@@ -12,7 +12,7 @@ import aplicacion.*;
 
 public class BodyTicGUI extends JFrame{
     
-    private Salon salon=null;
+    private Salon salon = null;
     
     private JPanel botones;
     private JScrollPane contenedor;
@@ -118,7 +118,7 @@ public class BodyTicGUI extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+guardar.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				opcionSalvar();
 			}
 		});
     	
@@ -148,13 +148,28 @@ public class BodyTicGUI extends JFrame{
 		});
     }
     
-    private void opcionSalir() {
-    	System.exit(0);
-    }
-    
     private void opcionIniciar() {
     	
     }
+    
+    private void opcionSalvar() {
+    	String sb = "TEST CONTENT";
+        JFileChooser file = new JFileChooser();
+        file.setCurrentDirectory(new File("/home/me/Documents"));
+        int filechoose = file.showSaveDialog(rootPane);
+        if (filechoose == JFileChooser.APPROVE_OPTION) {
+        	try(FileWriter fw = new FileWriter(file.getSelectedFile()+".dat")) {
+        	    fw.write(sb.toString()+"\n"+salon.toString());
+        	    fw.close();
+        	}catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    private void opcionSalir() {
+    	System.exit(0);
+    }    
     
     private void acciones(){
         
@@ -199,10 +214,7 @@ public class BodyTicGUI extends JFrame{
             }
         };  
         this.addWindowListener(w);
-        
-    }   
-    
-    
+    }
     
     private void entrada(){
          salon.entrada();
