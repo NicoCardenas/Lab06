@@ -1,11 +1,11 @@
 package presentacion;
 
 import javax.swing.*;
+import javax.swing.filechooser.*;
+
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.Thread;
 import java.io.*;
-
 
 import aplicacion.*;
 
@@ -101,7 +101,7 @@ public class BodyTicGUI extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+inicio.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(rootPane, "Atendiendo opciï¿½n "+inicio.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 				opcionIniciar();
 			}
 		});
@@ -110,7 +110,7 @@ public class BodyTicGUI extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+abrir.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(rootPane, "Atendiendo opciï¿½n "+abrir.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
     	
@@ -126,7 +126,7 @@ public class BodyTicGUI extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+importar.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(rootPane, "Atendiendo opciï¿½n "+importar.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
     	
@@ -134,7 +134,7 @@ public class BodyTicGUI extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+exportar.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(rootPane, "Atendiendo opciï¿½n "+exportar.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
     	
@@ -142,7 +142,7 @@ public class BodyTicGUI extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Atendiendo opción "+salir.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(rootPane, "Atendiendo opciï¿½n "+salir.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 				opcionSalir();
 			}
 		});
@@ -153,18 +153,23 @@ public class BodyTicGUI extends JFrame{
     }
     
     private void opcionSalvar() {
-    	String sb = "TEST CONTENT";
-        JFileChooser file = new JFileChooser();
-        file.setCurrentDirectory(new File("/home/me/Documents"));
-        int filechoose = file.showSaveDialog(rootPane);
-        if (filechoose == JFileChooser.APPROVE_OPTION) {
-        	try(FileWriter fw = new FileWriter(file.getSelectedFile()+".dat")) {
-        	    fw.write(sb.toString()+"\n"+salon.toString());
-        	    fw.close();
-        	}catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+    	try {
+    		JFileChooser chooser = new JFileChooser();
+			chooser.setCurrentDirectory(new File("/home/me/Documents"));
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("*.dat", ".dat");
+			chooser.setFileFilter(filter);
+			chooser.showSaveDialog(rootPane);
+			//System.out.println(chooser.getSelectedFile().getAbsolutePath()+" "+ chooser.getSelectedFile().getName());
+			File file = new File(chooser.getSelectedFile().getAbsolutePath()+".dat");
+			System.out.println(file.getAbsolutePath());
+			FileOutputStream fos = new FileOutputStream(file);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(salon);
+			fos.close();
+			oos.close();		
+		}catch (IOException e){
+			e.printStackTrace();
+		}
     }
     
     private void opcionSalir() {

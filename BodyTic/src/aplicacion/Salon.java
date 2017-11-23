@@ -1,6 +1,7 @@
 package aplicacion;
 import java.util.*;
 import java.awt.Color;
+import java.io.Serializable;
 
 
 /**
@@ -10,7 +11,7 @@ import java.awt.Color;
  * @author Nicolas Cardenas
  * @version version 1.0 (06/10/2017)
  */
-public class Salon{
+public class Salon implements Serializable{
     public static final int MAXIMO = 500;
     private static Salon salon = null;
     
