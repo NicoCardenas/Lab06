@@ -1,8 +1,9 @@
 package aplicacion;
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.Random;
 
-public interface EnSalon{
+public interface EnSalon extends Serializable{
 
     Random r = new Random(1);
     

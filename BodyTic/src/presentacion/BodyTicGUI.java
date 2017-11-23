@@ -152,12 +152,17 @@ public class BodyTicGUI extends JFrame{
     	
     }
     
+    private void opcionAbrir() throws IOException{
+		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new File("/home/me/Documents"));
+		chooser.showOpenDialog(rootPane);
+		
+    }
+    
     private void opcionSalvar() {
     	try {
     		JFileChooser chooser = new JFileChooser();
 			chooser.setCurrentDirectory(new File("/home/me/Documents"));
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("*.dat", ".dat");
-			chooser.setFileFilter(filter);
 			chooser.showSaveDialog(rootPane);
 			//System.out.println(chooser.getSelectedFile().getAbsolutePath()+" "+ chooser.getSelectedFile().getName());
 			File file = new File(chooser.getSelectedFile().getAbsolutePath()+".dat");
