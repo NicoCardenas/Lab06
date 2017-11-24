@@ -8,6 +8,10 @@ public class Deportista extends Persona implements EnSalon{
 	protected String palabras;
     protected int paso;
     
+    public Deportista(){
+    	super();
+    }
+    
 	public Deportista(Salon salon,String nombre,int posicionx, int posiciony){
 	    super(nombre,posicionx,posiciony);
 	    this.salon=salon;

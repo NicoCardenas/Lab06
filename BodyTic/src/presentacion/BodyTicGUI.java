@@ -6,6 +6,7 @@ import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.io.FileFilter;
 
 import aplicacion.*;
 
@@ -110,7 +111,7 @@ public class BodyTicGUI extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Atendiendo opci�n "+abrir.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				opcionAbrir();
 			}
 		});
     	
@@ -152,26 +153,45 @@ public class BodyTicGUI extends JFrame{
     	
     }
     
-    private void opcionAbrir() throws IOException{
-		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new File("/home/me/Documents"));
-		chooser.showOpenDialog(rootPane);
-		
+    private void opcionAbrir(){
+    	try{
+    		JFileChooser chooser = new JFileChooser();
+    		chooser.setCurrentDirectory(new File("/home/me/Documents"));
+    		FileNameExtensionFilter filter = new FileNameExtensionFilter("file dat","dat");
+    		chooser.setFileFilter(filter);
+    		chooser.showOpenDialog(rootPane);
+    		File file = new File(chooser.getSelectedFile().getAbsolutePath());
+    		if (file.exists()) {
+	    		FileInputStream fis = new FileInputStream(file);
+	    		ObjectInputStream obj = new ObjectInputStream(fis);
+	    		salon = (Salon) obj.readObject();
+	    		obj.close();
+    		}
+    	}catch(Throwable e){
+    		e.printStackTrace();
+    	}
     }
     
     private void opcionSalvar() {
     	try {
     		JFileChooser chooser = new JFileChooser();
 			chooser.setCurrentDirectory(new File("/home/me/Documents"));
-			chooser.showSaveDialog(rootPane);
-			//System.out.println(chooser.getSelectedFile().getAbsolutePath()+" "+ chooser.getSelectedFile().getName());
-			File file = new File(chooser.getSelectedFile().getAbsolutePath()+".dat");
-			System.out.println(file.getAbsolutePath());
-			FileOutputStream fos = new FileOutputStream(file);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(salon);
-			fos.close();
-			oos.close();		
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("file dat","dat");
+    		chooser.setFileFilter(filter);
+			int res = chooser.showSaveDialog(rootPane);
+			File file = new File("");
+			if (res != chooser.CANCEL_OPTION){
+				if (chooser.getSelectedFile().getName().toString().substring(chooser.getSelectedFile().getName().toString().length()-4) != ".dat"){
+					file = new File(chooser.getSelectedFile().getAbsolutePath()+".dat");
+				}else{
+					file = new File(chooser.getSelectedFile().getAbsolutePath());
+				}
+				FileOutputStream fos = new FileOutputStream(file);
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				oos.writeObject(salon);
+				fos.close();
+				oos.close();
+			}						
 		}catch (IOException e){
 			e.printStackTrace();
 		}

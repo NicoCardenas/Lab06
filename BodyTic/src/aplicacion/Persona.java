@@ -36,6 +36,11 @@ public class Persona {
 		piernaDer=ABAJO;
 		color=Color.BLACK;
 	}
+	
+	public Persona(){
+		
+	}
+	
 
 	/**Retorna el color del vestido*/
 	public Color getColor(){
