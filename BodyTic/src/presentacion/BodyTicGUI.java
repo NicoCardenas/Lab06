@@ -9,6 +9,7 @@ import java.io.*;
 import java.io.FileFilter;
 
 import aplicacion.*;
+import sun.java2d.pipe.OutlineTextRenderer;
 
 
 public class BodyTicGUI extends JFrame{
@@ -102,7 +103,6 @@ public class BodyTicGUI extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Atendiendo opci�n "+inicio.getText(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 				opcionIniciar();
 			}
 		});
@@ -150,7 +150,8 @@ public class BodyTicGUI extends JFrame{
     }
     
     private void opcionIniciar() {
-    	
+    	salon = Salon.demeSalon();
+    	actualice();
     }
     
     private void opcionAbrir(){
@@ -159,17 +160,43 @@ public class BodyTicGUI extends JFrame{
     		chooser.setCurrentDirectory(new File("/home/me/Documents"));
     		FileNameExtensionFilter filter = new FileNameExtensionFilter("file dat","dat");
     		chooser.setFileFilter(filter);
-    		chooser.showOpenDialog(rootPane);
-    		File file = new File(chooser.getSelectedFile().getAbsolutePath());
-    		if (file.exists()) {
-	    		FileInputStream fis = new FileInputStream(file);
-	    		ObjectInputStream obj = new ObjectInputStream(fis);
-	    		salon = (Salon) obj.readObject();
-	    		obj.close();
+    		int res = chooser.showOpenDialog(rootPane);
+    		salon = Salon.demeSalon();
+    		if (res != JFileChooser.CANCEL_OPTION) {
+    			File file = new File(chooser.getSelectedFile().getAbsolutePath());
+    			if (chooser.getSelectedFile().getName().toString().substring(chooser.getSelectedFile().getName().toString().length()-4) != ".dat")
+    				JOptionPane.showMessageDialog(rootPane, "Tipo de archivo incorrecto", "ERROR", JOptionPane.WARNING_MESSAGE);	    		
+	    		else {
+	    			FileInputStream fis = new FileInputStream(file);
+	    			ObjectInputStream obj = new ObjectInputStream(fis);
+	    			String nombre = (String)obj.readObject();
+		    		while (!nombre.equals("FIN")) {
+		    			int posx = (int)obj.readObject();
+		    			int posy = (int)obj.readObject();
+		    			Color color = (Color)obj.readObject();
+		    			if(color.equals(Color.BLACK))
+		    				salon.adicione(new Deportista(salon, nombre, posx, posy));
+		    			else if (color.equals(Color.ORANGE))
+		    				salon.adicione(new DeportistaAvanzado(salon, nombre, posx, posy));
+		    			else if (color.equals(Color.BLUE))
+		    				salon.adicione(new DeportistaPerezoso(salon, nombre, posx, posy));
+		    			else if (color.equals(Color.RED))
+		    				salon.adicione(new DeportistaHablador(salon, nombre, posx, posy));
+		    			else if (color.equals(Color.GRAY))
+		    				salon.adicione(new Bola(salon, nombre, posx, posy));
+		    			else if (color.equals(Color.YELLOW))
+		    				salon.adicione(new Snitch(salon, nombre, posx, posy));
+		    			nombre = (String)obj.readObject();
+		    		}
+		    		obj.close();
+	    		}
+    			
     		}
     	}catch(Throwable e){
     		e.printStackTrace();
-    	}
+    	}finally {
+    		actualice();
+		}
     }
     
     private void opcionSalvar() {
@@ -180,7 +207,7 @@ public class BodyTicGUI extends JFrame{
     		chooser.setFileFilter(filter);
 			int res = chooser.showSaveDialog(rootPane);
 			File file = new File("");
-			if (res != chooser.CANCEL_OPTION){
+			if (res != JFileChooser.CANCEL_OPTION){
 				if (chooser.getSelectedFile().getName().toString().substring(chooser.getSelectedFile().getName().toString().length()-4) != ".dat"){
 					file = new File(chooser.getSelectedFile().getAbsolutePath()+".dat");
 				}else{
@@ -188,7 +215,19 @@ public class BodyTicGUI extends JFrame{
 				}
 				FileOutputStream fos = new FileOutputStream(file);
 				ObjectOutputStream oos = new ObjectOutputStream(fos);
-				oos.writeObject(salon);
+				int i = 0;
+				while (i < salon.numeroEnSalon()) {
+					System.out.println(i);
+					EnSalon objeto = salon.deme(i);
+					if (objeto != null) {
+						oos.writeObject(objeto.getNombre());
+						oos.writeObject(objeto.getPosicionX());
+						oos.writeObject(objeto.getPosicionY());
+						oos.writeObject(objeto.getColor());
+					}					
+					i++;
+				}
+				oos.writeObject("FIN");
 				fos.close();
 				oos.close();
 			}						

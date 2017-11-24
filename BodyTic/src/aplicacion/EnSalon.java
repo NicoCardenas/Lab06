@@ -10,6 +10,7 @@ public interface EnSalon extends Serializable{
     int getPosicionX();
     int getPosicionY();
     Color getColor();
+    String getNombre();
     String mensaje();
 
     

@@ -49,4 +49,9 @@ public class Bola implements EnSalon{
     public int getPosicionY(){
         return posicionY;
     }
+
+	@Override
+	public String getNombre() {
+		return nombre;
+	}
 }

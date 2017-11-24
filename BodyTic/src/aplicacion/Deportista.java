@@ -4,13 +4,10 @@ import java.awt.Color;
 
 public class Deportista extends Persona implements EnSalon{
 	
-    private Salon salon;   
+	private static final long serialVersionUID = -7225304093594129510L;
+	private Salon salon;   
 	protected String palabras;
     protected int paso;
-    
-    public Deportista(){
-    	super();
-    }
     
 	public Deportista(Salon salon,String nombre,int posicionx, int posiciony){
 	    super(nombre,posicionx,posiciony);
@@ -20,7 +17,6 @@ public class Deportista extends Persona implements EnSalon{
 		salon.adicione(this);
 		paso=0;
 	}
-
 
 	private boolean puedeMover(char direccion) {
 		boolean puede=false;

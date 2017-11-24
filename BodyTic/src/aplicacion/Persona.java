@@ -35,12 +35,7 @@ public class Persona {
 		piernaIzq=ABAJO;
 		piernaDer=ABAJO;
 		color=Color.BLACK;
-	}
-	
-	public Persona(){
-		
-	}
-	
+	}	
 
 	/**Retorna el color del vestido*/
 	public Color getColor(){
@@ -128,7 +123,11 @@ public class Persona {
 	/**Retorna la coordenada y de la posicion*/
 	public final int getPosicionY(){
 		return posiciony;
-	}	
+	}
+	
+	public final String getNombre() {
+		return nombre;
+	}
 
 }
 
